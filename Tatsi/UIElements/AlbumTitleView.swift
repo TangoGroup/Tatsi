@@ -33,7 +33,7 @@ final class AlbumTitleView: UIControl {
     
     lazy fileprivate var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .white //TODO: This should be configurable
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         label.isUserInteractionEnabled = false
         label.isAccessibilityElement = false
@@ -73,7 +73,7 @@ final class AlbumTitleView: UIControl {
     private func setupView() {
         self.addSubview(self.titleLabel)
         self.addSubview(self.arrowIconView)
-        self.addSubview(self.directionLabel)
+        //self.addSubview(self.directionLabel)
         
         self.isAccessibilityElement = true
         self.accessibilityTraits = UIAccessibilityTraits.button
@@ -95,21 +95,21 @@ final class AlbumTitleView: UIControl {
         arrowIconViewSize.width = min(arrowIconViewSize.width, bounds.width)
         var arrowIconViewOrigin = CGPoint()
         
-        var directionLabelSize = self.directionLabel.intrinsicContentSize
-        directionLabelSize.width = min(directionLabelSize.width, bounds.width)
-        var directionLabelOrigin = CGPoint()
+//        var directionLabelSize = self.directionLabel.intrinsicContentSize
+//        directionLabelSize.width = min(directionLabelSize.width, bounds.width)
+//        var directionLabelOrigin = CGPoint()
         
         titleLabelOrigin.x = (self.bounds.width - (titleLabelSize.width + arrowIconViewSize.width + arrowIconOffset.x)) / 2
         arrowIconViewOrigin.x = titleLabelOrigin.x + titleLabelSize.width + arrowIconOffset.x
-        directionLabelOrigin.x = (self.bounds.width - directionLabelSize.width) / 2
+        //directionLabelOrigin.x = (self.bounds.width - directionLabelSize.width) / 2
         
-        titleLabelOrigin.y = (self.bounds.height - (titleLabelSize.height + directionLabelSize.height)) / 2
+        titleLabelOrigin.y = (self.bounds.height - titleLabelSize.height) / 2
         arrowIconViewOrigin.y = titleLabelOrigin.y + ((titleLabelSize.height - arrowIconViewSize.height) / 2) + arrowIconOffset.y
-        directionLabelOrigin.y = titleLabelOrigin.y + titleLabelSize.height
+       // directionLabelOrigin.y = titleLabelOrigin.y + titleLabelSize.height
         
         self.titleLabel.frame = CGRect(origin: titleLabelOrigin, size: titleLabelSize)
         self.arrowIconView.frame = CGRect(origin: arrowIconViewOrigin, size: arrowIconViewSize)
-        self.directionLabel.frame = CGRect(origin: directionLabelOrigin, size: directionLabelSize)
+        //self.directionLabel.frame = CGRect(origin: directionLabelOrigin, size: directionLabelSize)
     }
     
 }
