@@ -94,10 +94,12 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
     }
     
     lazy fileprivate var doneButton: UIBarButtonItem = {
-        let buttonitem = self.pickerViewController?.customDoneButtonItem() ?? UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
+        let customButton = self.pickerViewController?.customDoneButtonItem()
+        let buttonitem = customButton ?? UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
         buttonitem.target = self
         buttonitem.action = #selector(AssetsGridViewController.done(_:))
         buttonitem.accessibilityIdentifier = "tatsi.button.done"
+        buttonitem.tintColor = customButton?.tintColor ?? .white
         return buttonitem
     }()
     
@@ -137,10 +139,12 @@ final internal class AssetsGridViewController: UICollectionViewController, Picke
         super.viewWillAppear(animated)
         let isRootModalViewController = self.navigationController?.viewControllers.first == self && self.presentingViewController != nil
         
-        let cancelButtonItem = self.pickerViewController?.customCancelButtonItem() ?? UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+        let customButton = self.pickerViewController?.customCancelButtonItem()
+        let cancelButtonItem = customButton ?? UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
         cancelButtonItem.target = self
         cancelButtonItem.action = #selector(cancel(_:))
         cancelButtonItem.accessibilityIdentifier = "tatsi.button.cancel"
+        cancelButtonItem.tintColor = customButton?.tintColor ?? .white
         
         self.navigationItem.leftBarButtonItem = isRootModalViewController ? cancelButtonItem : nil
     }
@@ -418,8 +422,10 @@ extension AssetsGridViewController {
 extension AssetsGridViewController {
 
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard self.selectedAssets.count < self.config?.maxNumberOfSelections ?? Int.max else {
+        let max = self.config?.maxNumberOfSelections ?? Int.max
+        guard self.selectedAssets.count < max else {
             UIAccessibility.post(notification: UIAccessibility.Notification.announcement, argument: LocalizableStrings.accessibilityAlertSelectionLimitReached)
+            delegate?.pickerViewController(self, didTryExceedingMaxSelections: max)
             return false
         }
         return true

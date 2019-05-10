@@ -57,9 +57,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 
 extension ViewController: TatsiPickerViewControllerDelegate {
     
-    func pickerViewController(_ pickerViewController: TatsiPickerViewController, didPickAssets assets: [PHAsset]) {
+    func pickerViewController(_ pickerViewController: UIViewController, didPickAssets assets: [PHAsset]) {
         pickerViewController.dismiss(animated: true, completion: nil)
         print("Assets \(assets)")
     }
-    
 }
